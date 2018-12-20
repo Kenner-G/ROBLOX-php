@@ -7,3 +7,7 @@ I don't personally know NodeJS, but most of the bots will be converted from ROBL
 ## Requirments
 * cURL
 * PHP (Tested with 7.0)
+
+### Notes
+
+I will mostly be trying to do undocumented APIs first. Since the APIs documented at places such as groups.roblox.com are easy to follow and even provide cURL commands, I likely won't get started on those soon. I also won't bother making any sort of files that require some sort of captcha bypass (unless it's via deviceHandles or something).
