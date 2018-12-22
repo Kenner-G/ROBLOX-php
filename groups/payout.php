@@ -8,6 +8,7 @@
  *               specified user.
  *
  */
+
 function payout($cookie, $userid, $group, $amnt) {
     // .ROBLOSECURITY Cookie, The UserID of the User to payout, the GroupID, and the Amount of ROBUX
     require('../auth/grabToken.php');
