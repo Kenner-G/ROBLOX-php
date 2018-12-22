@@ -1,5 +1,13 @@
 <?php
-
+/*
+ *  Author: github.com/pokemonjpups
+ *  Requires: auth/grabToken.php
+ *  Location: groups/payout.php
+ *  Description: Pays out a specified amount of
+ *               robux from the group funds to the
+ *               specified user.
+ *
+ */
 function payout($cookie, $userid, $group, $amnt) {
     // .ROBLOSECURITY Cookie, The UserID of the User to payout, the GroupID, and the Amount of ROBUX
     require('../auth/grabToken.php');
