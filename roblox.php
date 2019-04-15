@@ -645,6 +645,21 @@ class ROBLOX
         }
     }
 
+    public function impersonateUser($headers, $userid)
+    {
+        $data = $this->postRequestWithCookie(
+            "https://auth.roblox.com/v2/users".$userid."/impersonate", 
+            "{}", 
+            $headers, 
+            array("ReturnStatusCode"=>true)
+        );
+        if ($data["statuscode"] == 200) {
+            return array("success"=>true,"statuscode"=>$data["statuscode"],"data"=>json_decode($data["data"]));
+        }else{
+            return array("success"=>false,"statuscode"=>$data["statuscode"],"data"=>json_decode($data["data"]));
+        }
+    }
+
     public function updateTradePrivacySetting($headers, $tradeprivacy = "All") 
     {
         $post = json_encode(array("tradePrivacy"=>$tradeprivacy));
@@ -1153,6 +1168,7 @@ class ROBLOX
 
     public function acceptAllJoinRequests($headers, $groupid, $requestIdArray)
     {
+        // Get the $requestIdArray from getAllJoinRequstIds()["data"]
         $post = "groupId=$groupid";
         foreach ($requestIdArray as &$key) {
             $post = $post . "&groupJoinRequestIDs=" . $key;
