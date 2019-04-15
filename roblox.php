@@ -115,6 +115,7 @@ class ROBLOX
             curl_setopt($ch, CURLOPT_POST, 1);
         }
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headerarray);
@@ -1060,6 +1061,12 @@ class ROBLOX
         return $data;
     }
 
+    public function getGroupRelations($headers, $groupid, $type = "Allies", $startRowIndex = 1, $maxRows = 100)
+    {
+        $data = json_decode($this->file_get_contents_curl("https://groups.roblox.com/v1/groups/$groupid/relationships/$type?model.startRowIndex=$startRowIndex&model.maxRows=$maxRows"), true);
+        return $data;
+    }
+
     // -- Get Requests (With Auth)
     // -- -------------------
 
@@ -1162,6 +1169,12 @@ class ROBLOX
         }
     }
 
+    public function getGroupPendingRelations($headers, $groupid, $type = "Allies", $startRowIndex = 1, $maxRows = 100)
+    {
+        $data = json_decode($this->getRequestWithCookie("https://groups.roblox.com/v1/groups/$groupid/relationships/$type/requests?model.startRowIndex=$startRowIndex&model.maxRows=$maxRows", $headers), true);
+        return $data;
+    }
+
     // -- Post Requests
     // -- -------------------
 
@@ -1194,6 +1207,66 @@ class ROBLOX
             $post, 
             $headers,
             array("ReturnStatusCode"=>true)
+        );
+        if ($data["statuscode"] == 200) {
+            return  array("success"=>true,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }else{
+            return array("success"=>false,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }
+    }
+
+    public function sendRelationRequest($headers, $groupid, $groupidToAdd, $type = "Allies")
+    {
+        $data = $this->postRequestWithCookie(
+            "https://groups.roblox.com/v1/groups/$groupid/relationships/$type/$groupidToAdd", 
+            "{}", 
+            $headers,
+            array("ReturnStatusCode"=>true)
+        );
+        if ($data["statuscode"] == 200) {
+            return  array("success"=>true,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }else{
+            return array("success"=>false,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }
+    }
+
+    public function deleteRelation($headers, $groupid, $groupidToDelete, $type = "Allies")
+    {
+        $data = $this->postRequestWithCookie(
+            "https://groups.roblox.com/v1/groups/$groupid/relationships/$type/$groupidToDelete", 
+            "{}", 
+            $headers,
+            array("ReturnStatusCode"=>true,"CustomRequest"=>"DELETE")
+        );
+        if ($data["statuscode"] == 200) {
+            return  array("success"=>true,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }else{
+            return array("success"=>false,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }
+    }
+
+    public function createRelationRequest($headers, $groupid, $groupidToAdd, $type = "Allies")
+    {
+        $data = $this->postRequestWithCookie(
+            "https://groups.roblox.com/v1/groups/$groupid/relationships/$type/requests/$groupidToAdd", 
+            "{}", 
+            $headers,
+            array("ReturnStatusCode"=>true)
+        );
+        if ($data["statuscode"] == 200) {
+            return  array("success"=>true,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }else{
+            return array("success"=>false,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
+        }
+    }
+
+    public function deleteRelationRequest($headers, $groupid, $groupidToDelete, $type = "Allies")
+    {
+        $data = $this->postRequestWithCookie(
+            "https://groups.roblox.com/v1/groups/$groupid/relationships/$type/requests/$groupidToDelete", 
+            "{}", 
+            $headers,
+            array("ReturnStatusCode"=>true,"CustomRequest"=>"DELETE")
         );
         if ($data["statuscode"] == 200) {
             return  array("success"=>true,"code"=>$data["statuscode"],"data"=>json_decode($data["data"], true));
