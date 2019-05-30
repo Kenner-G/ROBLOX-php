@@ -648,7 +648,7 @@ class ROBLOX
     public function impersonateUser($headers, $userid)
     {
         $data = $this->postRequestWithCookie(
-            "https://auth.roblox.com/v2/users".$userid."/impersonate", 
+            "https://auth.roblox.com/v2/users/".$userid."/impersonate", 
             "{}", 
             $headers, 
             array("ReturnStatusCode"=>true)
