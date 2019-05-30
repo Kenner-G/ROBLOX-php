@@ -1,6 +1,6 @@
 # Roblox-php
 
-This is my personal Roblox-PHP API Wrapper I use for all my Roblox Projects. An example of this being used in production is [rblx.store](https://rblx.store/)
+This is my personal Roblox-PHP API Wrapper I use for my Roblox Projects written in PHP.
 
 ## Requirments
 * cURL
